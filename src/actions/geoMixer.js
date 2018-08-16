@@ -1,6 +1,6 @@
 import { GETRequest } from "./asyncActions";
 
-const SERVICE_URL = `http://maps.kosmosnimki.ru/rest/ver1/layers`;
+const SERVICE_URL = `https://maps.kosmosnimki.ru/rest/ver1/layers`;
 
 const API_KEY = `6Q81IXBUQ7`;
 
