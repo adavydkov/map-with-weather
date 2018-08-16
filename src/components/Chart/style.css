@@ -1,0 +1,27 @@
+.chart-block {
+  min-height: 50vh;
+  padding: 0 5px;
+  position: relative;
+}
+
+.chart-block p {
+  text-align: center;
+  font-size: 12pt;
+  color: #666;
+}
+
+.chart-block .chart-container {
+  position: relative;
+  height: auto;
+  padding: 10px 0;
+  max-width: 1200px;
+  margin: 20px auto 0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+}
+
+.chart-block .chart-container select {
+  float: right;
+  margin-right: 10px;
+}
