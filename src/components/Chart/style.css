@@ -25,3 +25,32 @@
   float: right;
   margin-right: 10px;
 }
+
+.chart-block ul.legend {
+  float: left;
+  margin-left: 60px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #666;
+  padding: 0;
+}
+
+.chart-block ul.legend li {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.chart-block ul.legend li .marker {
+  width: 25px;
+  height: 15px;
+  float: left;
+  margin-right: 5px;
+}
+
+.chart-block ul.legend li .marker.red {
+  background-color: #f44b4f;
+}
+
+.chart-block ul.legend li .marker.rose {
+  background-color: #fbb9b8;
+}

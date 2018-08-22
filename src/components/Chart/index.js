@@ -38,12 +38,42 @@ class Chart extends React.Component {
     };
   }
 
+  prepareDataSets() {
+    const avgMonthlyRate = this.props.avgMonthlyRate;
+    const avgTemp = this.props.avgTemp;
+
+    let avgTempSetLessRate = [];
+    let avgTempSetMoreRate = [];
+
+    for (let i = 0; i < 12; i++) {
+      if (Math.abs(avgTemp[i]) > Math.abs(avgMonthlyRate[i])) {
+        avgTempSetMoreRate.push(avgTemp[i]);
+        avgTempSetLessRate.push(null);
+      } else {
+        avgTempSetMoreRate.push(null);
+        avgTempSetLessRate.push(avgTemp[i]);
+      }
+    }
+
+    return {
+      avgTempSetMoreRate: avgTempSetMoreRate,
+      avgTempSetLessRate: avgTempSetLessRate
+    };
+  }
+
   prepareChartData() {
     let data = {};
     if (this.props.avgMonthlyRate && this.props.avgMonthlyRate.length > 0) {
+      const preparedDataSets = this.prepareDataSets();
       data = {
         labels: this.state.labels,
         datasets: [
+          {
+            label: this.props.label,
+            data: preparedDataSets.avgTempSetLessRate,
+            backgroundColor: "#f44b4f"
+          },
+
           {
             label: "Среднемесячная норма",
             data: this.props.avgMonthlyRate,
@@ -51,7 +81,7 @@ class Chart extends React.Component {
           },
           {
             label: this.props.label,
-            data: this.props.avgTemp,
+            data: preparedDataSets.avgTempSetMoreRate,
             backgroundColor: "#f44b4f"
           }
         ]
@@ -60,13 +90,26 @@ class Chart extends React.Component {
     return data;
   }
 
+  getUniqueKey() {
+    return Math.random() * Math.pow(10, 20);
+  }
+
   render() {
     const data = this.prepareChartData();
     const options = {
       enabled: true,
+      legend: false,
       scales: {
         xAxes: [{ stacked: true }],
-        yAxes: [{ stacked: true }]
+        yAxes: [
+          {
+            stacked: false,
+            scaleLabel: {
+              display: true,
+              labelString: "Температура °C"
+            }
+          }
+        ]
       }
     };
 
@@ -74,13 +117,35 @@ class Chart extends React.Component {
       <div className={`chart-block`}>
         {this.props.avgMonthlyRate && this.props.avgMonthlyRate.length > 0 ? (
           <div className="chart-container">
+            {this.renderLegend()}
             {this.renderSelect()}
-            <Bar data={data} width={300} height={100} options={options} />
+            <Bar
+              data={data}
+              width={300}
+              height={100}
+              options={options}
+              datasetKeyProvider={this.getUniqueKey}
+            />
           </div>
         ) : (
           this.renderHint()
         )}
       </div>
+    );
+  }
+
+  renderLegend() {
+    return (
+      <ul className={`legend`}>
+        <li>
+          <div className={`marker rose`} />
+          Среднемесячная норма
+        </li>
+        <li>
+          <div className={`marker red`} />
+          {this.props.label}
+        </li>
+      </ul>
     );
   }
 
